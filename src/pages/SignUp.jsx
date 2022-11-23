@@ -19,7 +19,7 @@ const theme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -32,12 +32,9 @@ export default function SignUp() {
   };
 
   useEffect(() => {
-    if (loading) {
-      return;
-    }
     if (user) 
       navigate("/dashboard");
-  }, [user, loading]);
+  }, [user]);
 
   return (
     <ThemeProvider theme={theme}>

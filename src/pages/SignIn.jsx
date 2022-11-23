@@ -6,8 +6,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -19,7 +17,7 @@ const theme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,12 +26,9 @@ export default function SignIn() {
   };
 
   useEffect(() => {
-    if (loading) {
-      return;
-    }
     if (user) 
       navigate("/dashboard");
-  }, [user, loading]);
+  }, [user]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -84,8 +79,8 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
+                <Link to="/reset" href="#" variant="body2">
+                  {"Forgot password?"}
                 </Link>
               </Grid>
               <Grid item>
