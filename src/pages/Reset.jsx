@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, logIn, passwordReset } from "../components/Firebase/firebase";
-import { Link, useNavigate } from "react-router-dom";
+import React from 'react';
+import { passwordReset } from "../components/Firebase/firebase";
+import { Link } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -17,23 +14,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-export default function Reset() {
-    const navigate = useNavigate();
-    const [user, loading, error] = useAuthState(auth);
-  
+export default function Reset() { 
     const handleSubmit = (event) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
       passwordReset(data.get('email'));
     };
-  
-    /*useEffect(() => {
-      if (loading) {
-        return;
-      }
-      if (user) 
-        navigate("/#");
-    }, [user, loading]);*/
   
     return (
       <ThemeProvider theme={theme}>
