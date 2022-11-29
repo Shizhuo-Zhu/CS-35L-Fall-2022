@@ -61,14 +61,21 @@ const logout = () => {
 };
 
 const addExercise = (date, exercise) => {
-    const user = auth.currentUser;
-    addDoc(collection(db, "users", user.uid, "dates", date, "exercises"), {
-      exercise,
-    });
+  const user = auth.currentUser;
+  addDoc(collection(db, "users", user.uid, "dates", date, "exercises"), {
+    exercise,
+  });
+}
+
+const addWeight = (date, weight) => {
+  const user = auth.currentUser;
+  setDoc(doc(db, "users", user.uid, "dates", date), {
+    weight,
+  })
 }
 
 export {
-  auth, db, logIn, register, passwordReset, logout, addExercise,
+  auth, db, logIn, register, passwordReset, logout, addExercise, addWeight
 };
 
 
