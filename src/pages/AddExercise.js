@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
-import {db} from '../components/firebase.js'
+import {db, addExercise} from '../components/firebase.js'
 import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
 
   function SetFeatures(props) {
@@ -91,10 +91,10 @@ function AddNewExercise(props) {
   const [name, setName] = React.useState('');
   const [sets, setSets] = React.useState(1);
   const [unit, setUnit] = React.useState('lbs');
-  const exerciseCollectionRef = collection(db, "exercise");
+  //const exerciseCollectionRef = collection(db, "exercise");
   const newExercise = {date, name, sets, unit, reps:[], weights:[], notes:[]}
   const createExercise = async () => {
-    await addDoc(exerciseCollectionRef, newExercise);
+    await addExercise(date, newExercise);
   }
   let displaySetFeatures = [];
   for (let i = 0; i < sets; i++) {

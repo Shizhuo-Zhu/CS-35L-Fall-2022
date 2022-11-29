@@ -24,7 +24,6 @@ const db = getFirestore(app);
 const logIn = async(email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    addExercise();
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -61,15 +60,15 @@ const logout = () => {
   signOut(auth);
 };
 
-const addExercise = () => {
+const addExercise = (date, exercise) => {
     const user = auth.currentUser;
-    addDoc(collection(db, "users", user.uid, "dates"), {
-      date: "11/30/22",
+    addDoc(collection(db, "users", user.uid, "dates", date, "exercises"), {
+      exercise,
     });
 }
 
 export {
-  auth, db, logIn, register, passwordReset, logout,
+  auth, db, logIn, register, passwordReset, logout, addExercise,
 };
 
 
