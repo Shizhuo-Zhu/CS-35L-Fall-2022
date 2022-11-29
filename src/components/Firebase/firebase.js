@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword, sendPasswordResetEmail, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc,
+  getFirestore, collection, addDoc, setDoc, doc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -24,6 +24,7 @@ const db = getFirestore(app);
 const logIn = async(email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    addExercise();
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -34,7 +35,7 @@ const register = async(name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
-    await addDoc(collection(db, "users"), {
+    await setDoc(doc(db, "users", user.uid), {
       uid: user.uid,
       name,
       authProvider: "local",
@@ -59,6 +60,13 @@ const passwordReset = async(email) => {
 const logout = () => {
   signOut(auth);
 };
+
+const addExercise = () => {
+    const user = auth.currentUser;
+    addDoc(collection(db, "users", user.uid, "dates"), {
+      date: "11/30/22",
+    });
+}
 
 export {
   auth, db, logIn, register, passwordReset, logout,
