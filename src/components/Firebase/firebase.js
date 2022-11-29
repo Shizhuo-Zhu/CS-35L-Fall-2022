@@ -1,11 +1,10 @@
-import { Google } from "@mui/icons-material";
 import { initializeApp } from "firebase/app";
 import {
-  GoogleAuthProvider, getAuth, signInWithPopup, signInWithEmailAndPassword,
+  getAuth, signInWithEmailAndPassword,
   createUserWithEmailAndPassword, sendPasswordResetEmail, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, query, getDocs, collection, where, addDoc,
+  getFirestore, collection, addDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
