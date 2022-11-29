@@ -10,12 +10,17 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
+import {db} from '../components/firebase.js'
+import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
 
   function SetFeatures(props) {
     const unit = props.weightUnit;
+    const newExercise = props.newExercise;
     const [weight, setWeight] = React.useState('');
     const [reps, setReps] = React.useState('');
     const [notes, setNotes] = React.useState('');
+    const [confirmed, setConfirmed] = React.useState(false);
     const handleWeightChange = event => {
         const result = event.target.value.replace(/\D/g, '');
         setWeight(result);
@@ -24,8 +29,18 @@ import Stack from '@mui/material/Stack';
         const result = event.target.value.replace(/\D/g, '');
         setReps(result);
     };
+    const handleNotesChange = event => {
+      const result = event.target.value;
+      setNotes(result);
+  };
+    const handleConfirm = () => {
+      newExercise.weights.push(weight);
+      newExercise.reps.push(reps);
+      newExercise.notes.push(notes);
+      setConfirmed(true);
+    }
     return (
-    <div>
+    <div className="flex">
         <FormControl sx={{ m: 1, width: '11ch' }} variant="outlined">
           <OutlinedInput
             id="weight"
@@ -58,7 +73,7 @@ import Stack from '@mui/material/Stack';
           <OutlinedInput
             id="notes"
             value= {notes}
-            onChange={(e) => setNotes(e.target.value)}
+            onChange={handleNotesChange}
             inputProps={{
               'aria-label': 'notes',
               maxLength: 50
@@ -66,17 +81,24 @@ import Stack from '@mui/material/Stack';
           />
           <FormHelperText id="notes">Notes</FormHelperText>
         </FormControl>
+        {confirmed ? <CheckCircleTwoToneIcon color='primary' sx={{fontSize: 35}}/> : <Button variant="outlined" onClick={handleConfirm}>Confirm</Button>}
     </div>
     );
 }
 
-function AddNewExercise() {
+function AddNewExercise(props) {
+  const date = props.date;
   const [name, setName] = React.useState('');
   const [sets, setSets] = React.useState(1);
   const [unit, setUnit] = React.useState('lbs');
+  const exerciseCollectionRef = collection(db, "exercise");
+  const newExercise = {date, name, sets, unit, reps:[], weights:[], notes:[]}
+  const createExercise = async () => {
+    await addDoc(exerciseCollectionRef, newExercise);
+  }
   let displaySetFeatures = [];
   for (let i = 0; i < sets; i++) {
-      displaySetFeatures.push(<SetFeatures key={i} weightUnit={unit}/>)
+      displaySetFeatures.push(<SetFeatures key={i} weightUnit={unit} newExercise={newExercise}/>)
   }
   return (
     <div>
@@ -122,6 +144,9 @@ function AddNewExercise() {
         </Select>
       </FormControl>
       {displaySetFeatures}
+      <Stack direction="row" spacing={2}>
+        <Button variant="outlined" onClick={createExercise}>Add Exercise</Button>
+      </Stack>
       </div>
   );
 }
@@ -135,11 +160,11 @@ function Log() {
 }
 
 
-export default function AddExercise() {
+export default function AddExercise(props) {
+  const date = props.date;
     return (
         <div>
-            <AddNewExercise/>
-            <Log/>
+            <AddNewExercise date={date}/>
         </div>
     )
 }
