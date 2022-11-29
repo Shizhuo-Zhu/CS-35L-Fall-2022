@@ -22,6 +22,7 @@ import { useState, useEffect} from 'react';
 import {db} from '../components/firebase.js'
 import {collection, getDocs} from "firebase/firestore";
 import AddExercise from './AddExercise.js';
+import Navbar from '../components/Navbar.jsx';
 //import { mainListItems, secondaryListItems } from './listItems';
 //import Chart from './Chart';
 //import Deposits from './Deposits';
@@ -103,44 +104,10 @@ const Schedule = () => {
   }
   return (
     <ThemeProvider theme={mdTheme}>
+      <Navbar/>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
-            
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-        
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-                Calendar
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
+       
         {/*
         <Drawer variant="permanent" open={open}>
           <Toolbar
