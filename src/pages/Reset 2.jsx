@@ -1,5 +1,5 @@
 import React from 'react';
-import { passwordReset } from "../components/Firebase/firebase";
+import { passwordReset } from "../components/firebase";
 import { Link } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';

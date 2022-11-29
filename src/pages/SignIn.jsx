@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, logIn } from "../components/Firebase/firebase";
+import { auth, logIn } from "../components/firebase";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';

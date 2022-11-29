@@ -19,6 +19,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Calendar from 'react-calendar';
 import { useState, useEffect} from 'react';
+import {db} from '../components/firebase.js'
+import {collection, getDocs} from "firebase/firestore";
+import AddExercise from './AddExercise.js';
 //import { mainListItems, secondaryListItems } from './listItems';
 //import Chart from './Chart';
 //import Deposits from './Deposits';
@@ -91,7 +94,9 @@ const Schedule = () => {
     setOpen(!open);
   };
   const [date, setDate] = useState(new Date());
-  const [openList, setOPenList] = React.useState(false)
+  const [users, setUsers] = useState([]);
+  const userCollectionRef = collection(db, "users")
+  const [openList, setOPenList] = React.useState(false);
   const handleClick = (e) => {
     setDate(e)
     setOPenList(true);
@@ -178,20 +183,11 @@ const Schedule = () => {
               {/* Calendar */}
               <Grid item xs={12} md={8} lg={9}>
                 <Calendar onChange={handleClick} value={date} />
-                {console.log(date)}
+                {console.log(date.toDateString())}
               </Grid>
               {/* Activity list */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                    {/*{openList && <BlogList date={date} title={"Exercise on ${date}"}></BlogList>}*/}
-                </Paper>
+              <Grid item xs={12} md={4} lg={6}>
+                <AddExercise date={date.toDateString()}></AddExercise>
               </Grid>
               {/* Recent Orders 
               <Grid item xs={12}>

@@ -119,3 +119,8 @@ abbr[title] {
   background-color: #e6e6e6;
 }
 
+.flex{
+  display:flex;
+  justify-content:center;
+  align-items:baseline;
+}
