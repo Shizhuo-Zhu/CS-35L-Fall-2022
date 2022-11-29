@@ -27,7 +27,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (user) 
-      navigate("/dashboard");
+      navigate("/");
   }, [user]);
 
   return (

@@ -60,7 +60,7 @@ export default function Reset() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                    <Link to="/sign-up" href="#" variant="body2">
+                    <Link to="/#" href="#" variant="body2">
                     {"Already have an account? Sign in"}
                     </Link>
                 </Grid>
