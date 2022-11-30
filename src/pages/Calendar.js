@@ -28,18 +28,6 @@ import Navbar from '../components/Navbar.jsx';
 //import Deposits from './Deposits';
 //import Orders from './Orders';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -107,31 +95,37 @@ const Schedule = () => {
       <Navbar/>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-       
-        {/*
-        <Drawer variant="permanent" open={open}>
+        <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
+              pr: '24px', // keep right padding when drawer closed
             }}
           >
-        
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
+            
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={toggleDrawer}
+              sx={{
+                marginRight: '36px',
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
             </IconButton>
+        
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+                Exercise Log
+            </Typography>
           </Toolbar>
-          <Divider />
-          {/*
-          <List component="nav">
-            {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
-          </List>
-        </Drawer>
-        */}
+        </AppBar>
         <Box
           component="main"
           sx={{
@@ -156,13 +150,6 @@ const Schedule = () => {
               <Grid item xs={12} md={4} lg={6}>
                 <AddExercise date={date.toDateString()}></AddExercise>
               </Grid>
-              {/* Recent Orders 
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
-                </Paper>
-              </Grid>
-            */}
             </Grid>
           </Container>
         </Box>

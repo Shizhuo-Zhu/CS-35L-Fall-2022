@@ -68,7 +68,7 @@ const addExercise = (date, exercise) => {
   });
 }
 
-const addWeight = (date, weight) => {
+const addBodyweight = (date, weight) => {
   const user = auth.currentUser;
   setDoc(doc(db, "users", user.uid, "dates", date), {
     weight,
@@ -76,7 +76,7 @@ const addWeight = (date, weight) => {
 }
 
 export {
-  auth, db, logIn, register, passwordReset, logout, addExercise, addWeight
+  auth, db, logIn, register, passwordReset, logout, addExercise, addBodyweight
 };
 
 

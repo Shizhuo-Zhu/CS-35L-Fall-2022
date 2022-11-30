@@ -11,18 +11,18 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
-import {db, addExercise} from '../components/firebase.js'
+import {db, addExercise, addBodyweight} from '../components/firebase.js'
 import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
 
   function SetFeatures(props) {
-    const unit = props.weightUnit;
+    // const unit = props.weightUnit;
     const newExercise = props.newExercise;
     const [weight, setWeight] = React.useState('');
     const [reps, setReps] = React.useState('');
     const [notes, setNotes] = React.useState('');
     const [confirmed, setConfirmed] = React.useState(false);
     const handleWeightChange = event => {
-        const result = event.target.value.replace(/\D/g, '');
+        const result = event.target.value.replace(/[^\d\.]/g, '');
         setWeight(result);
     };
     const handleRepsChange = event => {
@@ -41,16 +41,16 @@ import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/f
     }
     return (
     <div className="flex">
-        <FormControl sx={{ m: 1, width: '11ch' }} variant="outlined">
+        <FormControl sx={{ m: 1, width: '11.5ch' }} variant="outlined">
           <OutlinedInput
             id="weight"
             type="text"
             value= {weight}
             onChange={handleWeightChange}
-            endAdornment={<InputAdornment position="end">{unit}</InputAdornment>}
+            endAdornment={<InputAdornment position="end">lbs</InputAdornment>}
             inputProps={{
               'aria-label': 'weight',
-              maxLength: 4,
+              maxLength: 5,
             }}
             required
           />
@@ -65,7 +65,7 @@ import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/f
               'aria-label': 'reps',
               maxLength: 2
             }}
-            required
+            required="true"
           />
           <FormHelperText id="reps">Reps.</FormHelperText>
         </FormControl>
@@ -90,21 +90,20 @@ function AddNewExercise(props) {
   const date = props.date;
   const [name, setName] = React.useState('');
   const [sets, setSets] = React.useState(1);
-  const [unit, setUnit] = React.useState('lbs');
-  //const exerciseCollectionRef = collection(db, "exercise");
-  const newExercise = {date, name, sets, unit, reps:[], weights:[], notes:[]}
+  // const [unit, setUnit] = React.useState('lbs');
+  const newExercise = {date, name, sets, reps:[], weights:[], notes:[]}
   const createExercise = async () => {
     await addExercise(date, newExercise);
   }
   let displaySetFeatures = [];
   for (let i = 0; i < sets; i++) {
-      displaySetFeatures.push(<SetFeatures key={i} weightUnit={unit} newExercise={newExercise}/>)
+      displaySetFeatures.push(<SetFeatures key={i} newExercise={newExercise}/>)
   }
   return (
     <div>
         <FormControl sx = {{m: 1, width: '30ch'}}>
         <TextField id="name"
-                   label="Name"
+                   label="Exercise Name"
                    variant="outlined"
                    onChange={(e) => setName(e.target.value)}
                    inputProps={{
@@ -131,7 +130,7 @@ function AddNewExercise(props) {
           <MenuItem value={8}>8</MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ m: 1 }} variant="standard">
+      {/* <FormControl sx={{ m: 1 }} variant="standard">
         <InputLabel id="unit">Unit</InputLabel>
        <Select
           labelId="unit"
@@ -142,7 +141,7 @@ function AddNewExercise(props) {
           <MenuItem value={'lbs'}>lbs</MenuItem>
           <MenuItem value={'kg'}>kg</MenuItem>
         </Select>
-      </FormControl>
+      </FormControl> */}
       {displaySetFeatures}
       <Stack direction="row" spacing={2}>
         <Button variant="outlined" onClick={createExercise}>Add Exercise</Button>
@@ -151,19 +150,48 @@ function AddNewExercise(props) {
   );
 }
 
-function Log() {
-    return (
-        <Stack direction="row" spacing={2}>
-          <Button variant="outlined">Log</Button>
-        </Stack>
-      );
-}
+function LogBodyweight(props) {
+  const date = props.date
+  const [bodyweight, setBodyweight] = React.useState('');
+  const handleBodyweightChange = event => {
+    const result = event.target.value.replace(/[^\d\.]/g, '');
+    setBodyweight(result);
+};
 
+  const createBodyweight = async () => {
+    await addBodyweight(date, bodyweight);
+    setBodyweight('')
+  };
+  
+  return (
+    <div>
+  <FormControl sx={{ m: 1, width: '11.5ch' }} variant="outlined">
+  <OutlinedInput
+    id="bodyweight"
+    type="text"
+    value= {bodyweight}
+    onChange={handleBodyweightChange}
+    endAdornment={<InputAdornment position="end">lbs</InputAdornment>}
+    inputProps={{
+      'aria-label': 'weight',
+      maxLength: 5,
+    }}
+    required
+  />
+  <FormHelperText id="bodyweight">Bodyweight</FormHelperText>
+  </FormControl>
+  <Stack direction="row" spacing={2}>
+        <Button variant="outlined" onClick={createBodyweight}>Log</Button>
+      </Stack>
+</div>
+  )
+}
 
 export default function AddExercise(props) {
   const date = props.date;
     return (
         <div>
+            <LogBodyweight date={date}/>
             <AddNewExercise date={date}/>
         </div>
     )
