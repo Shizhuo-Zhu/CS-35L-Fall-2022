@@ -23,6 +23,7 @@ import { auth, db } from '../components/firebase.js'
 import {collection, getDocs} from "firebase/firestore";
 import AddExercise from './AddExercise.js';
 import Navbar from '../components/Navbar.jsx';
+import ActivityList from './ActivityList.js';
 import { onAuthStateChanged } from 'firebase/auth';
 
 const drawerWidth = 240;
@@ -79,24 +80,10 @@ const Schedule = () => {
     setOpen(!open);
   };
   const [date, setDate] = useState(new Date());
-  const [users, setUsers] = useState([]);
-  const userCollectionRef = collection(db, "users")
-  const [openList, setOPenList] = React.useState(false);
+  //const [data, setData] = React.useState([]);
 
   const handleClick = (e) => {
     setDate(e);
-    setOPenList(true);
-    let exercises = [];
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docs = await getDocs(collection(db, "users", user.uid, "dates", e.toDateString(), "exercises"));
-        docs.forEach((doc) => {
-          exercises.push(doc.data());
-        });
-        console.log(exercises);
-      }
-    });
-
   }
   return (
     <ThemeProvider theme={mdTheme}>
@@ -123,9 +110,13 @@ const Schedule = () => {
               <Grid item xs={12} md={8} lg={9}>
                 <Calendar onChange={handleClick} value={date} />
               </Grid>
-              {/* Activity list */}
+              {/* Add Exercise */}
               <Grid item xs={12} md={4} lg={6}>
                 <AddExercise date={date.toDateString()}></AddExercise>
+              </Grid>
+              {/*Activity List */}
+              <Grid item xs={12} md={4} lg={3}>
+                <ActivityList date={date.toDateString()}></ActivityList>
               </Grid>
             </Grid>
           </Container>

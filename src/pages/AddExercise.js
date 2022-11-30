@@ -152,7 +152,7 @@ function LogBodyweight(props) {
   const handleBodyweightChange = event => {
     const result = event.target.value.replace(/[^\d\.]/g, '');
     setBodyweight(result);
-};
+  };
 
   const createBodyweight = async () => {
     await addBodyweight(date, bodyweight);
