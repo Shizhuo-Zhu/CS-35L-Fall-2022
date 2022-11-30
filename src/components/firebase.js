@@ -4,8 +4,11 @@ import {
   createUserWithEmailAndPassword, sendPasswordResetEmail, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc, setDoc, doc, getStorage,
+  getFirestore, collection, addDoc, setDoc, doc,
 } from "firebase/firestore";
+import {
+  getStorage,
+} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZtpVNAOIop_HtPfHrv2YPhJirFOAFvW8",
