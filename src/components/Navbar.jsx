@@ -10,10 +10,10 @@ import LoginIcon from "@mui/icons-material/Login";
 import MuiDrawer from "./drawer";
 import { useNavigate } from "react-router";
 import { getAuth, signOut } from "firebase/auth";
+import { auth, logout } from "./firebase";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const auth = getAuth();
   const user = auth.currentUser;
   if (user) {
     return (
@@ -38,8 +38,8 @@ export default function Navbar() {
               color="inherit"
               startIcon={<LoginIcon />}
               onClick={() => {
-                signOut(auth);
-                navigate("/Sign-in");
+                logout();
+                window.location.reload(false);
               }}
             >
               Logout

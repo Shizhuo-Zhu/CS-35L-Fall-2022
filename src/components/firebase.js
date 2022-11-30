@@ -6,12 +6,15 @@ import {
 import {
   getFirestore, collection, addDoc, setDoc, doc,
 } from "firebase/firestore";
+import {
+  getStorage,
+} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZtpVNAOIop_HtPfHrv2YPhJirFOAFvW8",
   authDomain: "cs35l-project-99e31.firebaseapp.com",
   projectId: "cs35l-project-99e31",
-  storageBucket: "cs35l-project-99e31.appspot.com",
+  storageBucket: "gs://cs35l-project-99e31.appspot.com",
   messagingSenderId: "954504558969",
   appId: "1:954504558969:web:e3189df5a563b5f40dd7a8",
   measurementId: "G-H2WEKP7DRL"
@@ -20,6 +23,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 const logIn = async(email, password) => {
   try {
@@ -61,10 +65,10 @@ const logout = () => {
 };
 
 const addExercise = (date, exercise) => {
-    const user = auth.currentUser;
-    addDoc(collection(db, "users", user.uid, "dates", date, "exercises"), {
-      exercise,
-    });
+  const user = auth.currentUser;
+  addDoc(collection(db, "users", user.uid, "dates", date, "exercises"), {
+    exercise,
+  });
 }
 
 const addBodyweight = (date, weight) => {
