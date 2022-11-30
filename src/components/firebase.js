@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword, sendPasswordResetEmail, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc, setDoc, doc,
+  getFirestore, collection, addDoc, setDoc, doc, getDocs,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -67,8 +67,12 @@ const addExercise = (date, exercise) => {
     });
 }
 
+const getExercise = (date) => {
+  const user = auth.currentUser;
+  return getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
+}
 export {
-  auth, db, logIn, register, passwordReset, logout, addExercise,
+  auth, db, logIn, register, passwordReset, logout, addExercise,getExercise
 };
 
 

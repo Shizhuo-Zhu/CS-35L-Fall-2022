@@ -22,6 +22,7 @@ import { useState, useEffect} from 'react';
 import {db} from '../components/firebase.js'
 import {collection, getDocs} from "firebase/firestore";
 import AddExercise from './AddExercise.js';
+import ActivityList from './ActivityList.js';
 //import { mainListItems, secondaryListItems } from './listItems';
 //import Chart from './Chart';
 //import Deposits from './Deposits';
@@ -185,17 +186,13 @@ const Schedule = () => {
                 <Calendar onChange={handleClick} value={date} />
                 {console.log(date.toDateString())}
               </Grid>
-              {/* Activity list */}
-              <Grid item xs={12} md={4} lg={6}>
+              {/* Add Exercise */}
+              <Grid item xs={4} md={1} lg={6}>
                 <AddExercise date={date.toDateString()}></AddExercise>
               </Grid>
-              {/* Recent Orders 
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
-                </Paper>
+              <Grid item xs={12} md={4} lg={3}>
+                <ActivityList date={date.toDateString()}></ActivityList>
               </Grid>
-            */}
             </Grid>
           </Container>
         </Box>

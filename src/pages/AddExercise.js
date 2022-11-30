@@ -13,6 +13,7 @@ import Stack from '@mui/material/Stack';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
 import {db, addExercise} from '../components/firebase.js'
 import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 
   function SetFeatures(props) {
     const unit = props.weightUnit;
@@ -95,6 +96,7 @@ function AddNewExercise(props) {
   const newExercise = {date, name, sets, unit, reps:[], weights:[], notes:[]}
   const createExercise = async () => {
     await addExercise(date, newExercise);
+    window.location.reload();
   }
   let displaySetFeatures = [];
   for (let i = 0; i < sets; i++) {
@@ -149,14 +151,6 @@ function AddNewExercise(props) {
       </Stack>
       </div>
   );
-}
-
-function Log() {
-    return (
-        <Stack direction="row" spacing={2}>
-          <Button variant="outlined">Log</Button>
-        </Stack>
-      );
 }
 
 
