@@ -150,12 +150,12 @@ function LogBodyweight(props) {
   const date = props.date
   const [bodyweight, setBodyweight] = React.useState('');
   const handleBodyweightChange = event => {
-    if (bodyweight = '') return;
     const result = event.target.value.replace(/[^\d\.]/g, '');
     setBodyweight(result);
 };
 
   const createBodyweight = async () => {
+    if (bodyweight = '') return;
     await addBodyweight(date, bodyweight);
     setBodyweight('')
   };
