@@ -19,11 +19,11 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Calendar from 'react-calendar';
 import { useState, useEffect} from 'react';
-import {db} from '../components/firebase.js'
+import { auth, db } from '../components/firebase.js'
 import {collection, getDocs} from "firebase/firestore";
 import AddExercise from './AddExercise.js';
 import Navbar from '../components/Navbar.jsx';
-
+import { onAuthStateChanged } from 'firebase/auth';
 
 const drawerWidth = 240;
 
@@ -82,9 +82,21 @@ const Schedule = () => {
   const [users, setUsers] = useState([]);
   const userCollectionRef = collection(db, "users")
   const [openList, setOPenList] = React.useState(false);
+
   const handleClick = (e) => {
-    setDate(e)
+    setDate(e);
     setOPenList(true);
+    let exercises = [];
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const docs = await getDocs(collection(db, "users", user.uid, "dates", e.toDateString(), "exercises"));
+        docs.forEach((doc) => {
+          exercises.push(doc.data());
+        });
+        console.log(exercises);
+      }
+    });
+
   }
   return (
     <ThemeProvider theme={mdTheme}>
@@ -110,7 +122,6 @@ const Schedule = () => {
               {/* Calendar */}
               <Grid item xs={12} md={8} lg={9}>
                 <Calendar onChange={handleClick} value={date} />
-                {console.log(date.toDateString())}
               </Grid>
               {/* Activity list */}
               <Grid item xs={12} md={4} lg={6}>

@@ -1,10 +1,10 @@
 import { initializeApp } from "firebase/app";
 import {
-  getAuth, signInWithEmailAndPassword,
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged,
   createUserWithEmailAndPassword, sendPasswordResetEmail, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc, setDoc, doc,
+  getFirestore, collection, addDoc, setDoc, doc, getDocs,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -65,21 +65,27 @@ const logout = () => {
 };
 
 const addExercise = (date, exercise) => {
-  const user = auth.currentUser;
-  addDoc(collection(db, "users", user.uid, "dates", date, "exercises"), {
-    exercise,
-  });
-}
-
-const addBodyweight = (date, weight) => {
-  const user = auth.currentUser;
-  setDoc(doc(db, "users", user.uid, "dates", date), {
-    weight,
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      addDoc(collection(db, "users", user.uid, "dates", date, "exercises"), {
+        exercise,
+      });
+    }
   })
 }
 
+const addBodyweight = (date, weight) => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setDoc(doc(db, "users", user.uid, "dates", date), {
+          weight,
+        })
+      }
+    });
+}
+
 export {
-  auth, db, logIn, register, passwordReset, logout, addExercise, addBodyweight
+  auth, db, logIn, register, passwordReset, logout, addExercise, addBodyweight,
 };
 
 

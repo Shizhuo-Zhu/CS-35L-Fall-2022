@@ -52,7 +52,7 @@ function App() {
       <Routes>
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/exerciselog" element={<Schedule/>}/>
+        <Route path="/calendar" element={<Schedule/>}/>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/reset" element={<Reset />} />
         <Route path='*' element={<NotFound />} />
