@@ -17,22 +17,12 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { withRouter } from 'react-router-dom';
+import Calendar from 'react-calendar';
+import { useState, useEffect} from 'react';
+import {db} from '../components/firebase.js'
+import {collection, getDocs} from "firebase/firestore";
+import AddExercise from './AddExercise.js';
 
-
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -82,23 +72,30 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
+const Schedule = () => {
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
+  const [date, setDate] = useState(new Date());
+  const [users, setUsers] = useState([]);
+  const userCollectionRef = collection(db, "users")
+  const [openList, setOPenList] = React.useState(false);
+  const handleClick = (e) => {
+    setDate(e)
+    setOPenList(true);
+  }
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open} color="secondary">
+        <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: '0px', // keep right padding when drawer closed
+              pr: '24px', // keep right padding when drawer closed
             }}
-           >
-            {/*}
+          >
+            
             <IconButton
               edge="start"
               color="inherit"
@@ -111,7 +108,7 @@ function DashboardContent() {
             >
               <MenuIcon />
             </IconButton>
-            */}
+        
             <Typography
               component="h1"
               variant="h6"
@@ -119,41 +116,10 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+                Exercise Log
             </Typography>
-            {/*
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            */}
           </Toolbar>
         </AppBar>
-        {/* side bar */}
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-            {/*
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-        */}
-          </Toolbar>
-          <Divider />
-          {/*}
-          <List component="nav">
-            <Divider sx={{ my: 1 }} />
-          </List>
-        */}
-        </Drawer> 
-
         <Box
           component="main"
           sx={{
@@ -167,44 +133,18 @@ function DashboardContent() {
           }}
         >
           <Toolbar />
-          {/* main content */}
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            {/* 3 grids */}
             <Grid container spacing={3}>
-                {/*
+              {/* Calendar */}
               <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                </Paper>
+                <Calendar onChange={handleClick} value={date} />
+                {console.log(date.toDateString())}
               </Grid>
-                */}
-                {/*
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                </Paper>
+              {/* Activity list */}
+              <Grid item xs={12} md={4} lg={6}>
+                <AddExercise date={date.toDateString()}></AddExercise>
               </Grid>
-                */}
-                {/*
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                </Paper>
-              </Grid>
-            */}
             </Grid>
-
           </Container>
         </Box>
       </Box>
@@ -212,7 +152,4 @@ function DashboardContent() {
   );
 }
 
-
-export default function Dashboard() {
-  return <DashboardContent />;
-}
+export default Schedule;
