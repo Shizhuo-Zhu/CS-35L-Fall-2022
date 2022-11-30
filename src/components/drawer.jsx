@@ -57,7 +57,7 @@ const MuiDrawer = () => {
           <nav aria-label="main mailbox folders">
             <List>
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={()=>{navigate("/calendar"); setIsDrawerOpen(false)}}>
                   <ListItemIcon>
                     <AccountCircleIcon />
                   </ListItemIcon>
@@ -65,7 +65,7 @@ const MuiDrawer = () => {
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={()=>{navigate("/calendar"); setIsDrawerOpen(false)}}>
                   <ListItemIcon>
                     <CalendarMonthIcon />
                   </ListItemIcon>
