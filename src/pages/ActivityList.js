@@ -38,6 +38,8 @@ const Test = (props) => {
     const activities = props.activities;
     const ids = props.ids;
     const date = props.date;
+    const renderCount = props.renderCount;
+    const setRenderCount = props.setRenderCount;
     console.log(activities[0])
     let testArray = [];
     for (let i = 0; i < activities.length; i++) {
@@ -50,7 +52,8 @@ const Test = (props) => {
                 <Grid item xs>
                     <h3>{activities[i].exercise.name}</h3>
                 </Grid>
-                <IconButton onClick={() => {handleDelete(date, ids[i])}}>
+                <IconButton onClick={() => {handleDelete(date, ids[i]); 
+                    setRenderCount(renderCount + 1)}}>
                     <DeleteTwoToneIcon></DeleteTwoToneIcon>
                 </IconButton>
                 </Grid>
@@ -77,34 +80,36 @@ const Test = (props) => {
         </div>
     );
 }
+
 const ActivityList = (props) => {
     const date = props.date;
+    const renderCount = props.renderCount;
+    const setRenderCount = props.setRenderCount;
     const [activities, setActivity] = useState([]);
     const [weight, setWeight] = useState('');
     //const activities = props.data;
     const [exerciseIDs, setIDs] = useState([]);
-    const [rerender, setRerender] = useState(0);
     useEffect(() => {
         let exercises = [];
         let ids = [];
+        let bodyweight;
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-              const docs = await getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
-              const docSnap = await getDoc(doc(db, "users", user.uid, "dates", date));
-              let bodyweight = docSnap.data().weight;
-              console.log(bodyweight);
-              docs.forEach((doc) => {
-                exercises.push(doc.data());
-                ids.push(doc.id);
-              });
+              try {
+                const docs = await getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
+                const docSnap = await getDoc(doc(db, "users", user.uid, "dates", date));
+                bodyweight = docSnap.data().weight;
+                docs.forEach((doc) => {
+                  exercises.push(doc.data());
+                  ids.push(doc.id);
+                });
+              } catch (err) {}
               setActivity(exercises);
               setWeight(bodyweight);
-              //console.log(exercises);
               setIDs(ids)
-              //setRerender(rerender + 1);
             }
           });
-      }, [date, rerender]);
+      }, [date, renderCount]);
     return (
     <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 3 }}>
         <StyledPaper
@@ -122,10 +127,11 @@ const ActivityList = (props) => {
             <Grid item><BlueAvatar size="small"><MonitorWeightIcon></MonitorWeightIcon></BlueAvatar></Grid>
             <Grid item xs><h3>{weight} lbs</h3></Grid>
             </Grid>
-            <Test activities={activities} ids={exerciseIDs} date={date}></Test>
+            <Test activities={activities} ids={exerciseIDs} date={date} renderCount={renderCount} 
+                setRenderCount={setRenderCount}></Test>
         </StyledPaper>
     </Box>
     );
 }
 
-export default ActivityList
+export default ActivityList;

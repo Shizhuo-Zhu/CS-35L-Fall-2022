@@ -81,6 +81,7 @@ const Schedule = () => {
   };
   const [date, setDate] = useState(new Date());
   //const [data, setData] = React.useState([]);
+  const [renderCount, setRenderCount] = React.useState(0);
 
   const handleClick = (e) => {
     setDate(e);
@@ -116,7 +117,7 @@ const Schedule = () => {
     </Grid>
     <Grid item>
       <Paper >
-      <AddExercise date={date.toDateString()}></AddExercise>
+      <AddExercise date={date.toDateString()} renderCount={renderCount} setRenderCount={setRenderCount}></AddExercise>
 
       </Paper>
     </Grid>
@@ -124,7 +125,7 @@ const Schedule = () => {
 </Grid>
 <Grid xs={6} item>
   <Box>
-  <ActivityList date={date.toDateString()}></ActivityList>
+  <ActivityList date={date.toDateString()} renderCount={renderCount} setRenderCount={setRenderCount}></ActivityList>
   </Box>
 </Grid>
 </Grid>
