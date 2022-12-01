@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import ProfilePic from '../pages/StickProfile.webp';
+import { NavLink } from "react-router-dom";
 
 function Profile() {
 	return (<div>
@@ -37,6 +38,7 @@ function Profile() {
 								>
 									{/* Profile Picture */}
 									<center><img src={ProfilePic} alt="Profile" width="220" height="220"/></center>
+									<NavLink><center>Upload Picture</center></NavLink>
 								</Paper>
 							</Grid>
 
@@ -59,7 +61,7 @@ function Profile() {
 							{/* Chart of Weight */}
 							<Grid item xs={12}>
 								<Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-								<LineChart />
+									<LineChart />
 								</Paper>
 							</Grid>
 						</Grid>
