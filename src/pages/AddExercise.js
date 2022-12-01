@@ -13,6 +13,7 @@ import Stack from '@mui/material/Stack';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
 import {db, addExercise, addBodyweight} from '../components/firebase.js'
 import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import { Divider } from '@mui/material';
 
   function SetFeatures(props) {
     // const unit = props.weightUnit;
@@ -155,13 +156,13 @@ function LogBodyweight(props) {
   };
 
   const createBodyweight = async () => {
-    if (bodyweight == '') return
+    if (bodyweight == '') return;
     await addBodyweight(date, bodyweight);
     setBodyweight('')
   };
   
   return (
-    <div>
+    <div className='flex'>
   <FormControl sx={{ m: 1, width: '11.5ch' }} variant="outlined">
   <OutlinedInput
     id="bodyweight"
@@ -177,9 +178,7 @@ function LogBodyweight(props) {
   />
   <FormHelperText id="bodyweight">Bodyweight</FormHelperText>
   </FormControl>
-  <Stack direction="row" spacing={2}>
-        <Button variant="outlined" onClick={createBodyweight}>Log</Button>
-      </Stack>
+  <Button variant="outlined" onClick={createBodyweight}>Log</Button>
 </div>
   )
 }
@@ -189,6 +188,7 @@ export default function AddExercise(props) {
     return (
         <div>
             <LogBodyweight date={date}/>
+            <Divider/>
             <AddNewExercise date={date}/>
         </div>
     )
