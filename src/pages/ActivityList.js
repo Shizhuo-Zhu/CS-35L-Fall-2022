@@ -88,7 +88,7 @@ const ActivityList = (props) => {
             <Grid item>
                 <Avatar><TodayTwoToneIcon></TodayTwoToneIcon></Avatar>
             </Grid>
-            <Grid item xs>
+            <Grid item xs alignContent={'center'} alignItems='center'>
                 <h2>{date}</h2>
             </Grid>
             </Grid>

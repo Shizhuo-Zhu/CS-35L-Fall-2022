@@ -25,7 +25,7 @@ import AddExercise from './AddExercise.js';
 import Navbar from '../components/Navbar.jsx';
 import ActivityList from './ActivityList.js';
 import { onAuthStateChanged } from 'firebase/auth';
-
+import StaticDatePickerLandscape from '../components/StaticDatePickerLandscape';
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -111,7 +111,9 @@ const Schedule = () => {
   >
     <Grid item>
       <Box justifyContent={'center'} justifyItems='center' >
-      <Calendar onChange={handleClick} value={date} />
+      {/* <Calendar onChange={handleClick} value={date} /> */}
+        <StaticDatePickerLandscape onChange={handleClick} value={date} />
+        {console.log(date)}
       </Box>
     </Grid>
     <Grid item>
