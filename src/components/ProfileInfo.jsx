@@ -10,8 +10,8 @@ import { onAuthStateChanged } from "firebase/auth";
 
 function ProfileInfo(){
 	
-	const defaultData = {"name": "John Doe",
-	                     "email": "johndoe@somecompany.com",
+	const defaultData = {"name": "Please Sign In to see Profile Name",
+	                     "email": "Please Sign In to see Profile Email",
 						};
 
 	const [data, setData] = useState(defaultData);
