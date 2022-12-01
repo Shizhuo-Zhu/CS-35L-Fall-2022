@@ -5,17 +5,18 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc} from "firebase/firestore";
 import { db, auth, getExercise, DeleteExercise} from '../components/firebase.js';
-import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
 import { useEffect, useState } from 'react';
 import FitnessCenterTwoToneIcon from '@mui/icons-material/FitnessCenterTwoTone';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import TodayTwoToneIcon from '@mui/icons-material/TodayTwoTone';
-import LabelImportantTwoToneIcon from '@mui/icons-material/LabelImportantTwoTone';
-import { onAuthStateChanged } from 'firebase/auth';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import MonitorWeightIcon from '@mui/icons-material/MonitorWeight';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import IconButton from '@mui/material/IconButton';
-import { Icon } from '@mui/material';
+import { onAuthStateChanged } from 'firebase/auth';
+
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -23,6 +24,10 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   maxWidth: 500,
   color: theme.palette.text.primary,
 }));
+
+const BlueAvatar = styled(Avatar)`
+  background-color: #1976d2;
+`;
 
 const handleDelete = (date, id) => {
     console.log(id);
@@ -38,9 +43,9 @@ const Test = (props) => {
     for (let i = 0; i < activities.length; i++) {
         if(activities[i]){
             testArray.push(
-                <Grid container wrap="nowrap" spacing={2}>
-                <Grid item>
-                    <Avatar><FitnessCenterIcon></FitnessCenterIcon></Avatar>
+                    <Grid container direction="row" alignItems="center" spacing={2}>
+                    <Grid item>
+                    <BlueAvatar><FitnessCenterIcon></FitnessCenterIcon></BlueAvatar>
                 </Grid>
                 <Grid item xs>
                     <h3>{activities[i].exercise.name}</h3>
@@ -52,13 +57,15 @@ const Test = (props) => {
             )
             for (let j = 0; j < activities[i].exercise.reps.length; j++) {
                 testArray.push(
-                    <Grid container wrap="nowrap" spacing={2}>
+                    <Grid container direction="row" alignItems="center" spacing={2}>
                     <Grid item>
-                        <LabelImportantTwoToneIcon fontSize="small"></LabelImportantTwoToneIcon>
+                        <ArrowRightIcon fontSize="small"></ArrowRightIcon>
                     </Grid>
                     <Grid item xs>
-                        <p>Set {j + 1}: {activities[i].exercise.weights[j]} lbs for {activities[i].exercise.reps[j]} repetitions</p>
+                        <p><b>Set {j + 1}</b>: {activities[i].exercise.weights[j]} lbs for {activities[i].exercise.reps[j]} repetitions</p>
+                        <p><u>Notes</u>: {activities[i].exercise.notes[j]}</p>
                     </Grid>
+                   
                     </Grid>
                 )
             }
@@ -73,6 +80,8 @@ const Test = (props) => {
 const ActivityList = (props) => {
     const date = props.date;
     const [activities, setActivity] = useState([]);
+    const [weight, setWeight] = useState('');
+    //const activities = props.data;
     const [exerciseIDs, setIDs] = useState([]);
     const [rerender, setRerender] = useState(0);
     useEffect(() => {
@@ -81,11 +90,16 @@ const ActivityList = (props) => {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
               const docs = await getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
+              const docSnap = await getDoc(doc(db, "users", user.uid, "dates", date));
+              let bodyweight = docSnap.data().weight;
+              console.log(bodyweight);
               docs.forEach((doc) => {
                 exercises.push(doc.data());
                 ids.push(doc.id);
               });
               setActivity(exercises);
+              setWeight(bodyweight);
+              //console.log(exercises);
               setIDs(ids)
               setRerender(rerender + 1);
             }
@@ -100,20 +114,18 @@ const ActivityList = (props) => {
             p: 2,
             }}
         >
-            <Grid container wrap="nowrap" spacing={2}>
-            <Grid item>
-                <Avatar><TodayTwoToneIcon></TodayTwoToneIcon></Avatar>
+            <Grid container direction="row" alignItems="center" spacing={2}>
+            <Grid item><BlueAvatar size="small"><TodayTwoToneIcon></TodayTwoToneIcon></BlueAvatar></Grid>
+            <Grid item xs><h2>{date}</h2></Grid>
             </Grid>
-            <Grid item xs>
-                <h2>{date}</h2>
-            </Grid>
+            <Grid container direction="row" alignItems="center" spacing={2}>
+            <Grid item><BlueAvatar size="small"><MonitorWeightIcon></MonitorWeightIcon></BlueAvatar></Grid>
+            <Grid item xs><h3>{weight} lbs</h3></Grid>
             </Grid>
             <Test activities={activities} ids={exerciseIDs} date={date}></Test>
         </StyledPaper>
     </Box>
     );
 }
-
-
 
 export default ActivityList

@@ -53,7 +53,7 @@ function App() {
       <Routes>
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/calendar" element={<Schedule/>}/>
+        <Route path="/exercise-log" element={<Schedule/>}/>
         <Route path="/list" element={<ActivityList/>}/>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/reset" element={<Reset />} />
