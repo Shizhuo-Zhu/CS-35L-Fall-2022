@@ -14,6 +14,7 @@ import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
 import {db, addExercise, addBodyweight} from '../components/firebase.js'
 import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
 import { Divider } from '@mui/material';
+import { render } from "../pages/ActivityList.js"
 
   function SetFeatures(props) {
     // const unit = props.weightUnit;
@@ -93,6 +94,8 @@ import { Divider } from '@mui/material';
 
 function AddNewExercise(props) {
   const date = props.date;
+  const renderCount = props.renderCount;
+  const setRenderCount = props.setRenderCount;
   const [name, setName] = React.useState('');
   const [sets, setSets] = React.useState(0);
   const newExercise = {date, name, sets, reps:[], weights:[], notes:[]}
@@ -100,7 +103,7 @@ function AddNewExercise(props) {
     if (name == '') return;
     await addExercise(date, newExercise);
     setName('');
-    setSets(0);
+    setRenderCount(renderCount + 1);
   }
   let displaySetFeatures = [];
   for (let i = 0; i < sets; i++) {
@@ -149,6 +152,8 @@ function AddNewExercise(props) {
 
 function LogBodyweight(props) {
   const date = props.date
+  const renderCount = props.renderCount;
+  const setRenderCount = props.setRenderCount;
   const [bodyweight, setBodyweight] = React.useState('');
   const handleBodyweightChange = event => {
     const result = event.target.value.replace(/[^\d\.]/g, '');
@@ -159,6 +164,7 @@ function LogBodyweight(props) {
     if (bodyweight == '') return;
     await addBodyweight(date, bodyweight);
     setBodyweight('')
+    setRenderCount(renderCount + 1);
   };
   
   return (
@@ -185,11 +191,13 @@ function LogBodyweight(props) {
 
 export default function AddExercise(props) {
   const date = props.date;
+  const renderCount = props.renderCount;
+  const setRenderCount = props.setRenderCount;
     return (
         <div>
-            <LogBodyweight date={date}/>
+            <LogBodyweight date={date} renderCount={renderCount} setRenderCount={setRenderCount}/>
             <Divider/>
-            <AddNewExercise date={date}/>
+            <AddNewExercise date={date} renderCount={renderCount} setRenderCount={setRenderCount}/>
         </div>
     )
 }
