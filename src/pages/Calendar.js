@@ -25,8 +25,18 @@ import AddExercise from './AddExercise.js';
 import Navbar from '../components/Navbar.jsx';
 import ActivityList from './ActivityList.js';
 import { onAuthStateChanged } from 'firebase/auth';
+import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 
 const drawerWidth = 240;
+
+const isWeekend = (date) => {
+  const day = date.day();
+
+  return day === 0 || day === 6;
+};
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -83,8 +93,8 @@ const Schedule = () => {
   //const [data, setData] = React.useState([]);
   const [renderCount, setRenderCount] = React.useState(0);
 
-  const handleClick = (e) => {
-    setDate(e);
+  const handleClick = (value) => {
+    setDate(value.$d);
   }
   return (
     <ThemeProvider theme={mdTheme}>
@@ -112,7 +122,17 @@ const Schedule = () => {
   >
     <Grid item>
       <Box justifyContent={'center'} justifyItems='center' >
-      <Calendar onChange={handleClick} value={date} />
+      {/*<Calendar onChange={handleClick} value={date} />*/}
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <StaticDatePicker
+        orientation="landscape"
+        openTo="day"
+        value={date}
+        shouldDisableDate={isWeekend}
+        onChange={handleClick}
+        renderInput={(params) => <TextField {...params} />}
+      />
+    </LocalizationProvider>
       </Box>
     </Grid>
     <Grid item>

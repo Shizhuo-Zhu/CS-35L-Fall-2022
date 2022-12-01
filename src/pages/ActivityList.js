@@ -29,10 +29,6 @@ const BlueAvatar = styled(Avatar)`
   background-color: #1976d2;
 `;
 
-const handleDelete = (date, id) => {
-    console.log(id);
-    DeleteExercise(date, id);
-}
 
 const Test = (props) => {
     const activities = props.activities;
