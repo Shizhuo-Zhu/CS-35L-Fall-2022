@@ -15,9 +15,12 @@ import { useState } from "react";
 import Divider from "@mui/material/Divider";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import HomeIcon from '@mui/icons-material/Home';
+import { useNavigate } from "react-router";
 
 const MuiDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const navigate=useNavigate();
   return (
     <>
       <IconButton
@@ -38,12 +41,23 @@ const MuiDrawer = () => {
           p={2}
           sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}
         >
+                    <List>
+              <ListItem disablePadding>
+                <ListItemButton onClick={()=>{navigate("/"); setIsDrawerOpen(false)}}>
+                  <ListItemIcon>
+                    <HomeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Home" />
+                </ListItemButton>
+              </ListItem>
+
+            </List>
           <Divider />
 
           <nav aria-label="main mailbox folders">
             <List>
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={()=>{navigate("/calendar"); setIsDrawerOpen(false)}}>
                   <ListItemIcon>
                     <AccountCircleIcon />
                   </ListItemIcon>
@@ -51,7 +65,7 @@ const MuiDrawer = () => {
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={()=>{navigate("/calendar"); setIsDrawerOpen(false)}}>
                   <ListItemIcon>
                     <CalendarMonthIcon />
                   </ListItemIcon>

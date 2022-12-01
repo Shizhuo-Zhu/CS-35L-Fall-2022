@@ -19,26 +19,12 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Calendar from 'react-calendar';
 import { useState, useEffect} from 'react';
-import {db} from '../components/firebase.js'
+import { auth, db } from '../components/firebase.js'
 import {collection, getDocs} from "firebase/firestore";
 import AddExercise from './AddExercise.js';
-//import { mainListItems, secondaryListItems } from './listItems';
-//import Chart from './Chart';
-//import Deposits from './Deposits';
-//import Orders from './Orders';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Navbar from '../components/Navbar.jsx';
+import ActivityList from './ActivityList.js';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const drawerWidth = 240;
 
@@ -94,114 +80,61 @@ const Schedule = () => {
     setOpen(!open);
   };
   const [date, setDate] = useState(new Date());
-  const [users, setUsers] = useState([]);
-  const userCollectionRef = collection(db, "users")
-  const [openList, setOPenList] = React.useState(false);
+  //const [data, setData] = React.useState([]);
+
   const handleClick = (e) => {
-    setDate(e)
-    setOPenList(true);
+    setDate(e);
   }
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
-            
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-        
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-                Calendar
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        {/*
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-        
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          {/*
-          <List component="nav">
-            {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
-          </List>
-        </Drawer>
-        */}
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
-          }}
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* Calendar */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Calendar onChange={handleClick} value={date} />
-                {console.log(date.toDateString())}
-              </Grid>
-              {/* Activity list */}
-              <Grid item xs={12} md={4} lg={6}>
-                <AddExercise date={date.toDateString()}></AddExercise>
-              </Grid>
-              {/* Recent Orders 
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
-                </Paper>
-              </Grid>
-            */}
-            </Grid>
-          </Container>
-        </Box>
+    <Navbar/>
+    <Box
+    component="main"
+    sx={{
+      backgroundColor: (theme) =>
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[900],
+      flexGrow: 1,
+      height: '100vh',
+      overflow: 'auto',
+    }}
+  >
+  <Grid spacing={4}  container>
+<Grid xs={6} item>
+  <Grid
+    spacing={4}
+    direction="column"
+    container
+    alignContent={'center'}
+    alignItems='center'
+  >
+    <Grid item>
+      <Box justifyContent={'center'} justifyItems='center' >
+      <Calendar onChange={handleClick} value={date} />
       </Box>
-    </ThemeProvider>
+    </Grid>
+    <Grid item>
+      <Paper >
+      <AddExercise date={date.toDateString()}></AddExercise>
+
+      </Paper>
+    </Grid>
+  </Grid>
+</Grid>
+<Grid xs={6} item>
+  <Box>
+  <ActivityList date={date.toDateString()}></ActivityList>
+  </Box>
+</Grid>
+</Grid>
+  </Box>
+
+</ThemeProvider>
+
   );
 }
+
+
 
 export default Schedule;

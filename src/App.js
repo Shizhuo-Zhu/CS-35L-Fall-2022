@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import {db} from './components/firebase.js'
 import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import ActivityList from './pages/ActivityList';
 
 function App() {
   const [newName, setNewName] = useState('')
@@ -53,7 +54,7 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/calendar" element={<Schedule/>}/>
-        <Route path="/addexercise" element={<AddExercise/>}/>
+        <Route path="/list" element={<ActivityList/>}/>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/reset" element={<Reset />} />
         <Route path='*' element={<NotFound />} />

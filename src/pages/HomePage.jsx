@@ -11,7 +11,7 @@ const HomePage = () => {
         class="bg"
         style={{
           backgroundImage: `url(${
-            process.env.PUBLIC_URL + "/backgroundImage.jpg"
+            process.env.PUBLIC_URL + "/background2.jpeg"
           })`,
           backgroundSize: "cover",
           height: "100vh",
@@ -21,9 +21,21 @@ const HomePage = () => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h1" component="div">
-          Racer Fitness
+            <Box
+      sx={{
+        width: 700,
+        height: 150,
+        backgroundColor: 'black',
+        opacity: 0.95,
+        display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+      }}
+    >
+        <Typography variant="h1" component="div" fontWeight={"bold"} color={"white"}>
+          RACER Fitness
         </Typography>
+       </Box>
       </Box>
       <CssBaseline />
     </div>
