@@ -87,7 +87,7 @@ const ActivityList = (props) => {
               });
               setActivity(exercises);
               setIDs(ids)
-              //setRerender(rerender + 1);
+              setRerender(rerender + 1);
             }
           });
       }, [date, rerender]);
