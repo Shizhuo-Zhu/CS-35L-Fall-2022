@@ -103,6 +103,7 @@ function AddNewExercise(props) {
     if (name == '') return;
     await addExercise(date, newExercise);
     setName('');
+    setSets(0);
     setRenderCount(renderCount + 1);
   }
   let displaySetFeatures = [];
