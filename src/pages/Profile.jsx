@@ -3,56 +3,76 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import LineChart from '../components/LineChart.jsx';
 import ProfileInfo from '../components/ProfileInfo.jsx';
-import Navbar from '../components/Navbar';
-import { useEffect, useState } from "react";
-import { useAuth, upload } from "../components/firebase.js";
-
+import Navbar from "../components/Navbar";
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import ProfilePic from '../pages/StickProfile.webp';
 
 function Profile() {
-
-	const currentUser = useAuth();
-	const [photo, setPhoto] = useState(null);
-	const [loading, setLoading] = useState(false);
-	const [photoURL, setPhotoURL] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
-
-	function handleChange(e) {
-		if (e.target.files[0]) {
-		  setPhoto(e.target.files[0])
-		}
-	}
-
-	function handleClick() {
-		upload(photo, currentUser, setLoading);
-	}
-
-	useEffect(() => {
-		if (currentUser?.photoURL) {
-		  setPhotoURL(currentUser.photoURL);
-		}
-	  }, [currentUser])
-	  
-
-	return (<>
+	return (<div>
 				<Navbar/>
-				<div className="fields">
-      				<input type="file" onChange={handleChange} />
-      				<button disabled={loading || !photo} onClick={handleClick}>Upload</button>
-      				<img src={photoURL} alt="Avatar" className="avatar" />
-    			</div>
-				<Box padding={5}>
-					<ProfileInfo />
-				</Box>
-				<Container>
-					<Box paddingY={1}
-						 sx = {{
-								width: 700,
-								height: 400
-							  }}
+				<Box
+					component="main"
+					sx={{
+						backgroundColor: (theme) =>
+							theme.palette.mode === 'light'
+							? theme.palette.grey[100]
+							: theme.palette.grey[900],
+						flexGrow: 1,
+						height: '100vh',
+						overflow: 'auto',
+						}}
 					>
-						<LineChart />
-					</Box>
-				</Container>
-			</>);
+						
+						<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+						<Grid container spacing={3}>
+						<Grid item xs={4}>
+								<Paper
+								sx={{
+									p: 2,
+									display: 'flex',
+									flexDirection: 'column',
+									height: 240,
+								}}
+								>
+									{/* Profile Picture */}
+									<center><img src={ProfilePic} alt="Profile" width="220" height="220"/></center>
+								</Paper>
+							</Grid>
+
+							{/* Profile Name and Info */}
+							<Grid item xs={8}>
+								<Paper
+								sx={{
+									p: 2,
+									display: 'flex',
+									flexDirection: 'column',
+									height: 240,
+									alignItems: "center",
+									textAlign: "center",
+								}}
+								>
+								<center><ProfileInfo /></center>
+								</Paper>
+							</Grid>
+							
+							{/* Chart of Weight */}
+							<Grid item xs={12}>
+								<Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+								<LineChart />
+								</Paper>
+							</Grid>
+						</Grid>
+
+						</Container>
+				</Box>
+			</div>);
 }
 
 export default Profile;
+
+
+
+
+
+

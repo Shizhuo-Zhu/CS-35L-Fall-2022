@@ -78,7 +78,3 @@ const addBodyweight = (date, weight) => {
 export {
   auth, db, logIn, register, passwordReset, logout, addExercise, addBodyweight
 };
-
-
-
-
