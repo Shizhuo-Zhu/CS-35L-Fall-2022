@@ -26,8 +26,12 @@ import Navbar from '../components/Navbar.jsx';
 import ActivityList from './ActivityList.js';
 import { onAuthStateChanged } from 'firebase/auth';
 import StaticDatePickerLandscape from '../components/StaticDatePickerLandscape';
-const drawerWidth = 240;
+import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 
+const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
@@ -45,6 +49,12 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
+
+const isWeekend = (date) => {
+  const day = date.day();
+
+  return day === 0 || day === 6;
+};
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -82,8 +92,10 @@ const Schedule = () => {
   const [date, setDate] = useState(new Date());
   //const [data, setData] = React.useState([]);
 
-  const handleClick = (e) => {
-    setDate(e);
+  const handleClick = (value) => {
+    console.log(value.$d);
+    //console.log(value.$d.toDateString());
+    setDate(value.$d);
   }
   return (
     <ThemeProvider theme={mdTheme}>
@@ -112,8 +124,17 @@ const Schedule = () => {
     <Grid item>
       <Box justifyContent={'center'} justifyItems='center' >
       {/* <Calendar onChange={handleClick} value={date} /> */}
-        <StaticDatePickerLandscape onChange={handleClick} value={date} />
-        {console.log(date)}
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <StaticDatePicker
+        orientation="landscape"
+        openTo="day"
+        value={date}
+        shouldDisableDate={isWeekend}
+        onChange={handleClick}
+        renderInput={(params) => <TextField {...params} />}
+      />
+    </LocalizationProvider>
+        {console.log(date.toDateString())}
       </Box>
     </Grid>
     <Grid item>

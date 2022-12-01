@@ -24,7 +24,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 const Test = (props) => {
     const activities = props.activities;
-    console.log(activities[0])
+    //console.log(activities[0])
     let testArray = [];
     for (let i = 0; i < activities.length; i++) {
         if(activities[i]){
