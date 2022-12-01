@@ -11,13 +11,13 @@ import {
 } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCZtpVNAOIop_HtPfHrv2YPhJirFOAFvW8",
-  authDomain: "cs35l-project-99e31.firebaseapp.com",
-  projectId: "cs35l-project-99e31",
-  storageBucket: "gs://cs35l-project-99e31.appspot.com",
-  messagingSenderId: "954504558969",
-  appId: "1:954504558969:web:e3189df5a563b5f40dd7a8",
-  measurementId: "G-H2WEKP7DRL"
+  apiKey: "AIzaSyCVnKU7tJPrjHls6kUNkJshtYseAZCuA5U",
+  authDomain: "racer-fitness.firebaseapp.com",
+  projectId: "racer-fitness",
+  storageBucket: "racer-fitness.appspot.com",
+  messagingSenderId: "43875997509",
+  appId: "1:43875997509:web:560aea361552eebfdf502c",
+  measurementId: "G-ER5B3JJRGT"
 };
 
 const app = initializeApp(firebaseConfig);
