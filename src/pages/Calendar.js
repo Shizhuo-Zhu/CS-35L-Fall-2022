@@ -87,43 +87,54 @@ const Schedule = () => {
   }
   return (
     <ThemeProvider theme={mdTheme}>
-      <Navbar/>
-
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
-          }}
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* Calendar */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Calendar onChange={handleClick} value={date} />
-              </Grid>
-              {/* Add Exercise */}
-              <Grid item xs={12} md={4} lg={6}>
-                <AddExercise date={date.toDateString()}></AddExercise>
-              </Grid>
-              {/*Activity List */}
-              <Grid item xs={12} md={4} lg={3}>
-                <ActivityList date={date.toDateString()}></ActivityList>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
+    <Navbar/>
+    <Box
+    component="main"
+    sx={{
+      backgroundColor: (theme) =>
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[900],
+      flexGrow: 1,
+      height: '100vh',
+      overflow: 'auto',
+    }}
+  >
+  <Grid spacing={4}  container>
+<Grid xs={6} item>
+  <Grid
+    spacing={4}
+    direction="column"
+    container
+    alignContent={'center'}
+    alignItems='center'
+  >
+    <Grid item>
+      <Box justifyContent={'center'} justifyItems='center' >
+      <Calendar onChange={handleClick} value={date} />
       </Box>
-    </ThemeProvider>
+    </Grid>
+    <Grid item>
+      <Paper >
+      <AddExercise date={date.toDateString()}></AddExercise>
+
+      </Paper>
+    </Grid>
+  </Grid>
+</Grid>
+<Grid xs={6} item>
+  <Box>
+  <ActivityList date={date.toDateString()}></ActivityList>
+  </Box>
+</Grid>
+</Grid>
+  </Box>
+
+</ThemeProvider>
+
   );
 }
+
+
 
 export default Schedule;
