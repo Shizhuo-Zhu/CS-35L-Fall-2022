@@ -77,10 +77,23 @@ const Test = (props) => {
         </div>
     );
 }
+const ShowBodyweight = (props) => {
+    const bodyweight = props.bodyweight;
+    if (bodyweight == '') return (<div></div>);
+    else {
+        return (
+            <Grid container direction="row" alignItems="center" spacing={2}>
+            <Grid item><BlueAvatar size="small"><MonitorWeightIcon></MonitorWeightIcon></BlueAvatar></Grid>
+            <Grid item xs><h3>{bodyweight} lbs</h3></Grid>
+            </Grid>
+        )
+    }
+ }
+
 const ActivityList = (props) => {
     const date = props.date;
     const [activities, setActivity] = useState([]);
-    const [weight, setWeight] = useState('');
+    const [bodyweight, setBodyweight] = useState('');
     //const activities = props.data;
     const [exerciseIDs, setIDs] = useState([]);
     const [rerender, setRerender] = useState(0);
@@ -91,17 +104,19 @@ const ActivityList = (props) => {
             if (user) {
               const docs = await getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
               const docSnap = await getDoc(doc(db, "users", user.uid, "dates", date));
-              let bodyweight = docSnap.data().weight;
-              console.log(bodyweight);
+              console.log(docSnap)
+              if (docSnap.data().weight != undefined) {
+                let bodyweight = docSnap.data().weight;
+                setBodyweight(bodyweight);
+              }
               docs.forEach((doc) => {
                 exercises.push(doc.data());
                 ids.push(doc.id);
               });
               setActivity(exercises);
-              setWeight(bodyweight);
               //console.log(exercises);
               setIDs(ids)
-              //setRerender(rerender + 1);
+            //   setRerender(rerender + 1);
             }
           });
       }, [date, rerender]);
@@ -118,10 +133,7 @@ const ActivityList = (props) => {
             <Grid item><BlueAvatar size="small"><TodayTwoToneIcon></TodayTwoToneIcon></BlueAvatar></Grid>
             <Grid item xs><h2>{date}</h2></Grid>
             </Grid>
-            <Grid container direction="row" alignItems="center" spacing={2}>
-            <Grid item><BlueAvatar size="small"><MonitorWeightIcon></MonitorWeightIcon></BlueAvatar></Grid>
-            <Grid item xs><h3>{weight} lbs</h3></Grid>
-            </Grid>
+            <ShowBodyweight bodyweight={bodyweight}/>
             <Test activities={activities} ids={exerciseIDs} date={date}></Test>
         </StyledPaper>
     </Box>
