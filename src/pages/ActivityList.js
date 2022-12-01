@@ -29,15 +29,12 @@ const BlueAvatar = styled(Avatar)`
   background-color: #1976d2;
 `;
 
-const handleDelete = (date, id) => {
-    console.log(id);
-    DeleteExercise(date, id);
-}
 
 const Test = (props) => {
     const activities = props.activities;
     const ids = props.ids;
     const date = props.date;
+    const handleDelete = props.handleDelete;
     console.log(activities[0])
     let testArray = [];
     for (let i = 0; i < activities.length; i++) {
@@ -84,6 +81,12 @@ const ActivityList = (props) => {
     //const activities = props.data;
     const [exerciseIDs, setIDs] = useState([]);
     const [rerender, setRerender] = useState(0);
+    const [click, setClick] = useState(false);
+    const handleDelete = (date, id) => {
+        console.log(id);
+        DeleteExercise(date, id);
+        setClick(true);
+    }
     useEffect(() => {
         let exercises = [];
         let ids = [];
@@ -91,20 +94,20 @@ const ActivityList = (props) => {
             if (user) {
               const docs = await getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
               const docSnap = await getDoc(doc(db, "users", user.uid, "dates", date));
-              let bodyweight = docSnap.data().weight;
-              console.log(bodyweight);
+              //let bodyweight = docSnap.data().weight;
+              //console.log(bodyweight);
               docs.forEach((doc) => {
                 exercises.push(doc.data());
                 ids.push(doc.id);
               });
               setActivity(exercises);
-              setWeight(bodyweight);
+              //setWeight(bodyweight);
               //console.log(exercises);
               setIDs(ids)
               //setRerender(rerender + 1);
             }
           });
-      }, [date, rerender]);
+      }, [date, click]);
     return (
     <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 3 }}>
         <StyledPaper
@@ -122,7 +125,7 @@ const ActivityList = (props) => {
             <Grid item><BlueAvatar size="small"><MonitorWeightIcon></MonitorWeightIcon></BlueAvatar></Grid>
             <Grid item xs><h3>{weight} lbs</h3></Grid>
             </Grid>
-            <Test activities={activities} ids={exerciseIDs} date={date}></Test>
+            <Test activities={activities} ids={exerciseIDs} date={date} handleDelete={handleDelete}></Test>
         </StyledPaper>
     </Box>
     );
