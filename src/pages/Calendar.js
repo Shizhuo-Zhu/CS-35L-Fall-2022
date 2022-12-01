@@ -23,6 +23,7 @@ import { auth, db } from '../components/firebase.js'
 import {collection, getDocs} from "firebase/firestore";
 import AddExercise from './AddExercise.js';
 import Navbar from '../components/Navbar.jsx';
+import ActivityList from './ActivityList.js';
 import { onAuthStateChanged } from 'firebase/auth';
 
 const drawerWidth = 240;
@@ -79,60 +80,61 @@ const Schedule = () => {
     setOpen(!open);
   };
   const [date, setDate] = useState(new Date());
-  const [users, setUsers] = useState([]);
-  const userCollectionRef = collection(db, "users")
-  const [openList, setOPenList] = React.useState(false);
+  //const [data, setData] = React.useState([]);
 
   const handleClick = (e) => {
     setDate(e);
-    setOPenList(true);
-    let exercises = [];
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docs = await getDocs(collection(db, "users", user.uid, "dates", e.toDateString(), "exercises"));
-        docs.forEach((doc) => {
-          exercises.push(doc.data());
-        });
-        console.log(exercises);
-      }
-    });
-
   }
   return (
     <ThemeProvider theme={mdTheme}>
-      <Navbar/>
-
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
-          }}
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* Calendar */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Calendar onChange={handleClick} value={date} />
-              </Grid>
-              {/* Activity list */}
-              <Grid item xs={12} md={4} lg={6}>
-                <AddExercise date={date.toDateString()}></AddExercise>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
+    <Navbar/>
+    <Box
+    component="main"
+    sx={{
+      backgroundColor: (theme) =>
+        theme.palette.mode === 'light'
+          ? theme.palette.grey[100]
+          : theme.palette.grey[900],
+      flexGrow: 1,
+      height: '100vh',
+      overflow: 'auto',
+    }}
+  >
+  <Grid spacing={4}  container>
+<Grid xs={6} item>
+  <Grid
+    spacing={4}
+    direction="column"
+    container
+    alignContent={'center'}
+    alignItems='center'
+  >
+    <Grid item>
+      <Box justifyContent={'center'} justifyItems='center' >
+      <Calendar onChange={handleClick} value={date} />
       </Box>
-    </ThemeProvider>
+    </Grid>
+    <Grid item>
+      <Paper >
+      <AddExercise date={date.toDateString()}></AddExercise>
+
+      </Paper>
+    </Grid>
+  </Grid>
+</Grid>
+<Grid xs={6} item>
+  <Box>
+  <ActivityList date={date.toDateString()}></ActivityList>
+  </Box>
+</Grid>
+</Grid>
+  </Box>
+
+</ThemeProvider>
+
   );
 }
+
+
 
 export default Schedule;

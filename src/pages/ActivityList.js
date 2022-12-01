@@ -6,13 +6,15 @@ import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { db, auth, getExercise} from '../components/firebase.js';
-import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc} from "firebase/firestore";
 import { useEffect, useState } from 'react';
 import FitnessCenterTwoToneIcon from '@mui/icons-material/FitnessCenterTwoTone';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import TodayTwoToneIcon from '@mui/icons-material/TodayTwoTone';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import MonitorWeightIcon from '@mui/icons-material/MonitorWeight';
 import { onAuthStateChanged } from 'firebase/auth';
+
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -21,20 +23,22 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
+const BlueAvatar = styled(Avatar)`
+  background-color: #1976d2;
+`;
 
 const Test = (props) => {
     const activities = props.activities;
-    console.log(activities[0])
     let testArray = [];
     for (let i = 0; i < activities.length; i++) {
         if(activities[i]){
             testArray.push(
                 <Grid container wrap="nowrap" spacing={2}>
                 <Grid item>
-                    <Avatar><FitnessCenterIcon></FitnessCenterIcon></Avatar>
+                    <BlueAvatar><FitnessCenterIcon></FitnessCenterIcon></BlueAvatar>
                 </Grid>
                 <Grid item xs>
-                    <h3>{activities[i].exercise.name}</h3>
+                    <h4>{activities[i].exercise.name}</h4>
                 </Grid>
                 </Grid>
             )
@@ -45,7 +49,7 @@ const Test = (props) => {
                         <ArrowRightIcon fontSize="small"></ArrowRightIcon>
                     </Grid>
                     <Grid item xs>
-                        <p>Set {j + 1}: {activities[i].exercise.weights[j]} lbs for {activities[i].exercise.reps[j]} repetitions</p>
+                        <p><b>Set {j + 1}</b>: {activities[i].exercise.weights[j]} lbs for {activities[i].exercise.reps[j]} repetitions</p>
                     </Grid>
                     </Grid>
                 )
@@ -61,16 +65,21 @@ const Test = (props) => {
 const ActivityList = (props) => {
     const date = props.date;
     const [activities, setActivity] = useState([]);
+    const [weight, setWeight] = useState('');
     //const activities = props.data;
     useEffect(() => {
         let exercises = [];
         onAuthStateChanged(auth, async (user) => {
             if (user) {
               const docs = await getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
+              const docSnap = await getDoc(doc(db, "users", user.uid, "dates", date));
+              let bodyweight = docSnap.data().weight;
+              console.log(bodyweight);
               docs.forEach((doc) => {
                 exercises.push(doc.data());
               });
               setActivity(exercises);
+              setWeight(bodyweight);
               //console.log(exercises);
             }
           });
@@ -85,12 +94,12 @@ const ActivityList = (props) => {
             }}
         >
             <Grid container wrap="nowrap" spacing={2}>
-            <Grid item>
-                <Avatar><TodayTwoToneIcon></TodayTwoToneIcon></Avatar>
+            <Grid item><BlueAvatar size="small"><TodayTwoToneIcon></TodayTwoToneIcon></BlueAvatar></Grid>
+            <Grid item xs><h2>{date}</h2></Grid>
             </Grid>
-            <Grid item xs>
-                <h2>{date}</h2>
-            </Grid>
+            <Grid container wrap="nowrap" spacing={2}>
+            <Grid item><BlueAvatar size="small"><MonitorWeightIcon></MonitorWeightIcon></BlueAvatar></Grid>
+            <Grid item xs><h3>{weight} lbs</h3></Grid>
             </Grid>
             <Test activities={activities}></Test>
         </StyledPaper>
@@ -101,4 +110,3 @@ const ActivityList = (props) => {
 
 
 export default ActivityList
-
