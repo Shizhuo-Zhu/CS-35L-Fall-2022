@@ -155,6 +155,7 @@ function LogBodyweight(props) {
   };
 
   const createBodyweight = async () => {
+    if (bodyweight == '') return
     await addBodyweight(date, bodyweight);
     setBodyweight('')
   };

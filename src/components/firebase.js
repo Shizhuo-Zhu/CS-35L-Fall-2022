@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword, sendPasswordResetEmail, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc, setDoc, doc, getDocs,
+  getFirestore, collection, addDoc, setDoc, doc, getDocs, deleteDoc
 } from "firebase/firestore";
 import {
   getStorage,
@@ -84,8 +84,16 @@ const addBodyweight = (date, weight) => {
     });
 }
 
+const DeleteExercise = (date, id) => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      deleteDoc(doc(db, "users", user.uid, "dates", date, "exercises", id));
+    }
+  })
+}
+
 export {
-  auth, db, logIn, register, passwordReset, logout, addExercise, addBodyweight,
+  auth, db, logIn, register, passwordReset, logout, addExercise, addBodyweight, DeleteExercise,
 };
 
 
