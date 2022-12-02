@@ -7,17 +7,13 @@ import Select from '@mui/material/Select';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
-import {db, addExercise, addBodyweight} from '../components/firebase.js'
-import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import { addExercise, addBodyweight } from '../components/firebase.js'
 import { Divider } from '@mui/material';
-import { render } from "../pages/ActivityList.js"
 
   function SetFeatures(props) {
-    // const unit = props.weightUnit;
     const newExercise = props.newExercise;
     const [weight, setWeight] = React.useState('');
     const [reps, setReps] = React.useState('');
@@ -39,7 +35,7 @@ import { render } from "../pages/ActivityList.js"
       setNotes(result);
   };
     const handleConfirm = () => {
-      if (weight == '' || reps == '') return;
+      if (weight === '' || reps === '') return;
       newExercise.weights.push(weight);
       newExercise.reps.push(reps);
       newExercise.notes.push(notes);
@@ -100,7 +96,7 @@ function AddNewExercise(props) {
   const [sets, setSets] = React.useState(0);
   const newExercise = {date, name, sets, reps:[], weights:[], notes:[]}
   const createExercise = async () => {
-    if (name == '') return;
+    if (name === '') return;
     await addExercise(date, newExercise);
     setName('');
     setSets(0);
@@ -162,7 +158,7 @@ function LogBodyweight(props) {
   };
 
   const createBodyweight = async () => {
-    if (bodyweight == '') return;
+    if (bodyweight === '') return;
     await addBodyweight(date, bodyweight);
     setBodyweight('')
     setRenderCount(renderCount + 1);

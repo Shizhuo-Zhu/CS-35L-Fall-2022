@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Typography from '@mui/material/Typography';
-
-import { auth } from "../components/firebase.js";
-import { db } from "../components/firebase.js";
+import { auth, db } from "../components/firebase.js";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -22,10 +20,8 @@ function ProfileInfo(){
 
 				const querySnapshot = await getDocs(q);
 				querySnapshot.forEach((doc) => {
-					console.log(doc.id, " => ", doc.data());
 					info = doc.data();
 				});
-
 				setData(info);
 			}
 		});

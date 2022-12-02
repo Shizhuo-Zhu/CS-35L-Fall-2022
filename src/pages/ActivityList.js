@@ -4,11 +4,9 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc} from "firebase/firestore";
-import { db, auth, getExercise, DeleteExercise} from '../components/firebase.js';
+import {collection, getDocs, doc, getDoc} from "firebase/firestore";
+import { db, auth, DeleteExercise} from '../components/firebase.js';
 import { useEffect, useState } from 'react';
-import FitnessCenterTwoToneIcon from '@mui/icons-material/FitnessCenterTwoTone';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import TodayTwoToneIcon from '@mui/icons-material/TodayTwoTone';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
@@ -35,7 +33,7 @@ const handleDelete = (date, id) => {
 
 const ShowNotes = (props) => {
     const notes = props.notes;
-    if (notes != '') {
+    if (notes !== '') {
         return (
             <p><u>Notes</u>: {notes}</p>
         )
@@ -51,7 +49,6 @@ const Test = (props) => {
     const date = props.date;
     const renderCount = props.renderCount;
     const setRenderCount = props.setRenderCount;
-    console.log(activities[0])
     let testArray = [];
     for (let i = 0; i < activities.length; i++) {
         if(activities[i]){
@@ -93,7 +90,7 @@ const Test = (props) => {
 }
 const ShowBodyweight = (props) => {
     const bodyweight = props.bodyweight;
-    if (bodyweight == '') return (<div></div>);
+    if (bodyweight === '') return (<div></div>);
     else {
         return (
             <Grid container direction="row" alignItems="center" spacing={2}>
@@ -110,18 +107,16 @@ const ActivityList = (props) => {
     const setRenderCount = props.setRenderCount;
     const [activities, setActivity] = useState([]);
     const [bodyweight, setBodyweight] = useState('');
-    //const activities = props.data;
     const [exerciseIDs, setIDs] = useState([]);
     useEffect(() => {
         let exercises = [];
         let ids = [];
-        //let bodyweight;
         onAuthStateChanged(auth, async (user) => {
             if (user) {
               try {
                 const docs = await getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
                 const docSnap = await getDoc(doc(db, "users", user.uid, "dates", date));
-                if (docSnap.exists() && docSnap.data().weight != undefined) {
+                if (docSnap.exists() && docSnap.data().weight !== undefined) {
                     let bodyweight = docSnap.data().weight;
                     setBodyweight(bodyweight);
                 }
@@ -136,8 +131,7 @@ const ActivityList = (props) => {
               }
               setActivity(exercises);
               setIDs(ids)
-            }
-            
+            }         
           });
       }, [date, renderCount]);
     return (

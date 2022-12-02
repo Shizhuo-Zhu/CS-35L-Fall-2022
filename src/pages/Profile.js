@@ -9,12 +9,21 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { auth, upload } from "../components/firebase.js";
 import { Button, IconButton } from "@mui/material";
+import { onAuthStateChanged } from "firebase/auth";
 
 function Profile() {
     const [photo, setPhoto] = useState(null);
     const [loading, setLoading] = useState(false);
     const [photoURL, setPhotoURL] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png");
-    const user = auth.currentUser;
+	const [user, setUser] = useState(auth.currentUser);
+
+	useEffect(() => {
+	  onAuthStateChanged(auth, async (user) => {
+		if (user) {
+		  setUser(user);
+		}
+	  })
+	}, [user]);
     
     const handleChange = (e) => {
         if (e.target.files[0]) {

@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Chart from 'chart.js/auto';
 import { Line } from "react-chartjs-2";
-import { auth } from "./firebase.js";
-import { db } from "../components/firebase.js";
+import { auth, db } from "./firebase.js";
 import { query, collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -45,7 +44,7 @@ const LineChart = (props) => {
 		labels: [],
 		datasets: [
 			{
-				label: "Weight (kgs)",
+				label: "Weight (lbs)",
 				backgroundColor: "rgb(255, 99, 132)",
 				borderColor: "rgb(255, 99, 132)",
 				data: [],
@@ -87,27 +86,18 @@ const LineChart = (props) => {
 					fb_weights[index] = rec.data().weight;
 				});	
 
-				console.log("Final Length of Dates Array: ", fb_dates.length);
-				for(let x = 0; x < fb_dates.length; x++)
-				{
-					console.log(fb_dates[x]);
-				}
-
 				const newData = {
 					labels: fb_dates,
 					datasets: [
 						{
-							label: "Weight (kgs)",
+							label: "Weight (lbs)",
 							backgroundColor: "rgb(255, 99, 132)",
 							borderColor: "rgb(255, 99, 132)",
 							data: fb_weights,
 						},
 					],
 				};
-				console.log ("Data Added");
-			
 				setData(newData);
-				console.log ("Data Set");
 			}
 		});
 	}, []);

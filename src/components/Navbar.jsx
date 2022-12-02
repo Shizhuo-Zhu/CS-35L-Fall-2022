@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect, useState } from 'react';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,10 +10,19 @@ import MuiDrawer from "./drawer";
 import { useNavigate } from "react-router";
 import { auth, logout } from "./firebase";
 import { Avatar } from "@mui/material";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const user = auth.currentUser;
+  const [user, setUser] = useState(auth.currentUser);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUser(user);
+      }
+    })
+  }, [user]);
 
   if (user) {
     return (

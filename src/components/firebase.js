@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword, sendPasswordResetEmail, signOut,
 } from 'firebase/auth';
 import {
-  getFirestore, collection, addDoc, setDoc, doc, getDocs, deleteDoc
+  getFirestore, collection, addDoc, setDoc, doc, deleteDoc,
 } from "firebase/firestore";
 import {
   getStorage, ref, uploadBytes, getDownloadURL,
@@ -45,6 +45,7 @@ const register = async(name, email, password) => {
       authProvider: "local",
       email,
     });
+
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -96,6 +97,7 @@ const DeleteExercise = (date, id) => {
 const upload = (file, setLoading) => {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
+      console.log("photo uploaded");
       const fileRef = ref(storage, user.uid + '.png');
       setLoading(true); 
       await uploadBytes(fileRef, file);

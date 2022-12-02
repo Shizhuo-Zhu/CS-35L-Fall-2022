@@ -1,5 +1,4 @@
-import { AlignHorizontalCenter, CenterFocusStrong } from "@mui/icons-material";
-import { Box, Button, CssBaseline, Typography } from "@mui/material";
+import { Box, CssBaseline, Typography } from "@mui/material";
 import React from "react";
 import Navbar from "../components/Navbar";
 const HomePage = () => {
