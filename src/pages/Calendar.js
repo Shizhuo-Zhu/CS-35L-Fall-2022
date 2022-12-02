@@ -123,9 +123,15 @@ const Schedule = () => {
     <Grid item>
       <Box justifyContent={'center'} justifyItems='center' >
       {/*<Calendar onChange={handleClick} value={date} />*/}
+      <Paper
+    sx={{
+      p: 2,
+      width: 600,
+    }}
+    >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
       <StaticDatePicker
-        orientation="landscape"
+        displayStaticWrapperAs='desktop'
         openTo="day"
         value={date}
         shouldDisableDate={isWeekend}
@@ -133,11 +139,17 @@ const Schedule = () => {
         renderInput={(params) => <TextField {...params} />}
       />
     </LocalizationProvider>
+    </Paper>
       </Box>
     </Grid>
     <Grid item>
-      <Paper >
-      <AddExercise date={date.toDateString()} renderCount={renderCount} setRenderCount={setRenderCount}></AddExercise>
+    <Paper
+    sx={{
+      p: 2,
+      width: 600,
+    }}
+    >
+                      <AddExercise date={date.toDateString()} renderCount={renderCount} setRenderCount={setRenderCount}></AddExercise>
 
       </Paper>
     </Grid>
@@ -145,7 +157,13 @@ const Schedule = () => {
 </Grid>
 <Grid xs={6} item>
   <Box>
+  <Paper
+    sx={{
+      p: 2,
+      width: 600,
+    }}>
   <ActivityList date={date.toDateString()} renderCount={renderCount} setRenderCount={setRenderCount}></ActivityList>
+  </Paper>
   </Box>
 </Grid>
 </Grid>
