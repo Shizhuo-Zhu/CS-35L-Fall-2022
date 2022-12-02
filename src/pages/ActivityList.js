@@ -33,6 +33,18 @@ const handleDelete = (date, id) => {
     DeleteExercise(date, id);
 }
 
+const ShowNotes = (props) => {
+    const notes = props.notes;
+    if (notes != '') {
+        return (
+            <p><u>Notes</u>: {notes}</p>
+        )
+    }
+    else {
+        return (<div></div>)
+    }
+}
+
 const Test = (props) => {
     const activities = props.activities;
     const ids = props.ids;
@@ -65,7 +77,7 @@ const Test = (props) => {
                     </Grid>
                     <Grid item xs>
                         <p><b>Set {j + 1}</b>: {activities[i].exercise.weights[j]} lbs for {activities[i].exercise.reps[j]} repetitions</p>
-                        <p><u>Notes</u>: {activities[i].exercise.notes[j]}</p>
+                        <ShowNotes notes = {activities[i].exercise.notes[j]}/>
                     </Grid>
                    
                     </Grid>
@@ -103,24 +115,29 @@ const ActivityList = (props) => {
     useEffect(() => {
         let exercises = [];
         let ids = [];
-        let bodyweight;
+        //let bodyweight;
         onAuthStateChanged(auth, async (user) => {
             if (user) {
               try {
                 const docs = await getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
                 const docSnap = await getDoc(doc(db, "users", user.uid, "dates", date));
-                if (docSnap.data().weight != undefined) {
+                if (docSnap.exists() && docSnap.data().weight != undefined) {
                     let bodyweight = docSnap.data().weight;
                     setBodyweight(bodyweight);
-                  }
+                }
+                else {
+                    setBodyweight('');
+                }
                 docs.forEach((doc) => {
                   exercises.push(doc.data());
                   ids.push(doc.id);
                 });
-              } catch (err) {}
+              } catch (err) {               
+              }
               setActivity(exercises);
               setIDs(ids)
             }
+            
           });
       }, [date, renderCount]);
     return (
