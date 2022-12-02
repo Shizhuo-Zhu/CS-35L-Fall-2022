@@ -75,30 +75,17 @@ const LineChart = (props) => {
 				{
 					fb_dates.push("c");
 				}
-				
+
 				let fb_weights = [];
 				for (let q = 0; q < fb_dates_num.length; q++)
 				{
 					fb_weights.push(0);
 				}
 
-				
-
 				snapshot.forEach((rec) => {
-
-					let index = 0;
-					for (let c = 0; c < fb_dates_num.length; c++)
-					{
-						if(dateToNum(rec.id) == fb_dates_num[c])
-						{
-							index = c;
-							break;
-						}
-					}
-					
+					let index = fb_dates_num.indexOf(dateToNum(rec.id));
 					fb_dates[index] = rec.id;
 					fb_weights[index] = rec.data().weight;
-
 				});	
 
 				console.log("Final Length of Dates Array: ", fb_dates.length);
