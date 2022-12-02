@@ -57,7 +57,7 @@ const MuiDrawer = () => {
           <nav aria-label="main mailbox folders">
             <List>
               <ListItem disablePadding>
-                <ListItemButton onClick={()=>{navigate("/exercise-log"); setIsDrawerOpen(false)}}>
+                <ListItemButton onClick={()=>{navigate("/profile"); setIsDrawerOpen(false)}}>
                   <ListItemIcon>
                     <AccountCircleIcon />
                   </ListItemIcon>

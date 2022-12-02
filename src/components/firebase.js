@@ -1,14 +1,16 @@
+import userEvent from "@testing-library/user-event";
 import { initializeApp } from "firebase/app";
 import {
-  getAuth, signInWithEmailAndPassword, onAuthStateChanged,
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, updateProfile,
   createUserWithEmailAndPassword, sendPasswordResetEmail, signOut,
 } from 'firebase/auth';
 import {
   getFirestore, collection, addDoc, setDoc, doc, getDocs, deleteDoc
 } from "firebase/firestore";
 import {
-  getStorage,
+  getStorage, ref, uploadBytes, getDownloadURL,
 } from "firebase/storage";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZtpVNAOIop_HtPfHrv2YPhJirFOAFvW8",
@@ -92,8 +94,23 @@ const DeleteExercise = (date, id) => {
   })
 }
 
+const upload = (file, setLoading) => {
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const fileRef = ref(storage, user.uid + '.png');
+      setLoading(true); 
+      await uploadBytes(fileRef, file);
+      const photoURL = await getDownloadURL(fileRef); 
+      await updateProfile(user, {photoURL});
+      console.log(photoURL);
+      setLoading(false);
+    }
+  })
+}
+
 export {
-  auth, db, logIn, register, passwordReset, logout, addExercise, addBodyweight, DeleteExercise,
+  auth, db, logIn, register, passwordReset, logout, addExercise, addBodyweight,
+  DeleteExercise, upload,
 };
 
 

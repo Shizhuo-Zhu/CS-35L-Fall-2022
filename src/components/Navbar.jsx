@@ -1,4 +1,5 @@
 import * as React from "react";
+import {useEffect, useState} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,10 +12,12 @@ import MuiDrawer from "./drawer";
 import { useNavigate } from "react-router";
 import { getAuth, signOut } from "firebase/auth";
 import { auth, logout } from "./firebase";
+import { Avatar } from "@mui/material";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const user = auth.currentUser;
+
   if (user) {
     return (
       <Box sx={{ flexGrow: 1 }}>
@@ -32,14 +35,15 @@ export default function Navbar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Racer Fitness
             </Typography>
-
+            <Avatar src={user.photoURL} ></Avatar>
+              &nbsp;&nbsp;&nbsp;&nbsp;
             <Button
               variant="outlined"
               color="inherit"
               startIcon={<LoginIcon />}
               onClick={() => {
                 logout();
-                window.location.reload(false);
+                navigate("/Sign-in");
               }}
             >
               Logout
@@ -60,7 +64,6 @@ export default function Navbar() {
             aria-label="menu"
             sx={{ mr: 2 }}
           > */}
-            <MuiDrawer />
             {/* </IconButton> */}
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Racer Fitness

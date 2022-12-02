@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp';
 import AddExercise from './pages/AddExercise';
 import Schedule from './pages/Calendar';
 import Reset from "./pages/Reset"
+import Profile from "./pages/Profile.js"
 import NotFound from './pages/NotFound';
 import { useState, useEffect} from 'react';
 import {
@@ -57,6 +58,7 @@ function App() {
         <Route path="/list" element={<ActivityList/>}/>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/reset" element={<Reset />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
