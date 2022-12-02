@@ -1,4 +1,4 @@
-CS 35L Fall 2022 project
+## CS 35L Fall 2022 project
 
 Web application development: Fitness Tracker
 
