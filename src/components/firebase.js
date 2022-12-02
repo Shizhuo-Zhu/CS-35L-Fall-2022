@@ -112,7 +112,3 @@ export {
   auth, db, logIn, register, passwordReset, logout, addExercise, addBodyweight,
   DeleteExercise, upload,
 };
-
-
-
-
