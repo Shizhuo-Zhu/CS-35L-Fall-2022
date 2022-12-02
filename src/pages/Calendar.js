@@ -134,7 +134,6 @@ const Schedule = () => {
         displayStaticWrapperAs='desktop'
         openTo="day"
         value={date}
-        shouldDisableDate={isWeekend}
         onChange={handleClick}
         renderInput={(params) => <TextField {...params} />}
       />
