@@ -79,13 +79,25 @@ const Test = (props) => {
         </div>
     );
 }
+const ShowBodyweight = (props) => {
+    const bodyweight = props.bodyweight;
+    if (bodyweight == '') return (<div></div>);
+    else {
+        return (
+            <Grid container direction="row" alignItems="center" spacing={2}>
+            <Grid item><BlueAvatar size="small"><MonitorWeightIcon></MonitorWeightIcon></BlueAvatar></Grid>
+            <Grid item xs><h3>{bodyweight} lbs</h3></Grid>
+            </Grid>
+        )
+    }
+ }
 
 const ActivityList = (props) => {
     const date = props.date;
     const renderCount = props.renderCount;
     const setRenderCount = props.setRenderCount;
     const [activities, setActivity] = useState([]);
-    const [weight, setWeight] = useState('');
+    const [bodyweight, setBodyweight] = useState('');
     //const activities = props.data;
     const [exerciseIDs, setIDs] = useState([]);
     useEffect(() => {
@@ -97,14 +109,16 @@ const ActivityList = (props) => {
               try {
                 const docs = await getDocs(collection(db, "users", user.uid, "dates", date, "exercises"));
                 const docSnap = await getDoc(doc(db, "users", user.uid, "dates", date));
-                bodyweight = docSnap.data().weight;
+                if (docSnap.data().weight != undefined) {
+                    let bodyweight = docSnap.data().weight;
+                    setBodyweight(bodyweight);
+                  }
                 docs.forEach((doc) => {
                   exercises.push(doc.data());
                   ids.push(doc.id);
                 });
               } catch (err) {}
               setActivity(exercises);
-              setWeight(bodyweight);
               setIDs(ids)
             }
           });
@@ -122,10 +136,7 @@ const ActivityList = (props) => {
             <Grid item><BlueAvatar size="small"><TodayTwoToneIcon></TodayTwoToneIcon></BlueAvatar></Grid>
             <Grid item xs><h2>{date}</h2></Grid>
             </Grid>
-            <Grid container direction="row" alignItems="center" spacing={2}>
-            <Grid item><BlueAvatar size="small"><MonitorWeightIcon></MonitorWeightIcon></BlueAvatar></Grid>
-            <Grid item xs><h3>{weight} lbs</h3></Grid>
-            </Grid>
+            <ShowBodyweight bodyweight={bodyweight}/>
             <Test activities={activities} ids={exerciseIDs} date={date} renderCount={renderCount} 
                 setRenderCount={setRenderCount}></Test>
         </StyledPaper>
