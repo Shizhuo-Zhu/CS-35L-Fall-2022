@@ -1,6 +1,15 @@
-# Getting Started with Create React App
+## CS 35L Fall 2022 project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Web application development: Fitness Tracker
+
+Features:
+1. Authentication: sign in/sign up
+2. Add exercises information to a specific date
+3. Dynamically display exercises information of a date.
+4. Delete exercises of a date.
+5. User profile: update and dynamically display user information, pictures and user's body weight graph over time.
+
+The presentation slides is included in the project directory.
 
 ## Available Scripts
 
