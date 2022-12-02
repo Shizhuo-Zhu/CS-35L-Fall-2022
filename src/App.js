@@ -3,19 +3,15 @@ import './App.css';
 import HomePage from "./pages/HomePage";
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-import AddExercise from './pages/AddExercise';
 import Schedule from './pages/Calendar';
 import Reset from "./pages/Reset"
 import Profile from "./pages/Profile.js"
 import NotFound from './pages/NotFound';
-import { useState, useEffect} from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
-import {db} from './components/firebase.js'
-import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
 import ActivityList from './pages/ActivityList';
 
 function App() {

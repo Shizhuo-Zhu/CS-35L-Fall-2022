@@ -1,16 +1,12 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import LoginIcon from "@mui/icons-material/Login";
 import MuiDrawer from "./drawer";
 import { useNavigate } from "react-router";
-import { getAuth, signOut } from "firebase/auth";
 import { auth, logout } from "./firebase";
 import { Avatar } from "@mui/material";
 

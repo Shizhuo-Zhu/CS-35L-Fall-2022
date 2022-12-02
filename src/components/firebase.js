@@ -1,4 +1,3 @@
-import userEvent from "@testing-library/user-event";
 import { initializeApp } from "firebase/app";
 import {
   getAuth, signInWithEmailAndPassword, onAuthStateChanged, updateProfile,

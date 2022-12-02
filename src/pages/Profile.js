@@ -7,9 +7,7 @@ import ProfileInfo from '../components/ProfileInfo.js';
 import Navbar from "../components/Navbar";
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { NavLink } from "react-router-dom";
 import { auth, upload } from "../components/firebase.js";
-import { onAuthStateChanged } from 'firebase/auth'
 import { Button, IconButton } from "@mui/material";
 
 function Profile() {
