@@ -25,7 +25,7 @@ function App() {
         <Route path="/" element={<HomePage/>}/>
         <Route path="/reset" element={<Reset />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path='*' element={<NotFound />} />
+        <Route path='*' element={<HomePage />} />
       </Routes>
     </Router>
   );
